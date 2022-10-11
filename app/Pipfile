@@ -10,6 +10,7 @@ sqlalchemy = "*"
 requests = "*"
 psycopg2 = "*"
 pydantic = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
