@@ -62,6 +62,8 @@ I was looking to overhaul the user login procedure with a JWT Authentication pro
 
 Another major assumption made was that Bambeuros are whole integers and can only be such. If we wished to change this to a float (either 2.d.p or unlimited) it would be easy to update in the backend. For now though, only whole Bambeuros can be transacted.
 
+Finally much of the data is validated incorrectly, in my tests I have assumed a user would sign up with an email yet all the schema will check for is string.
+
 ## React Frontend (frontend) (WIP)
 
 The installation and use of the Frontend React App assumes you have a working [`Node.js`](https://nodejs.org/en/download/package-manager/) installation on your machine.
