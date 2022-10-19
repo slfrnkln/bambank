@@ -1,7 +1,7 @@
 from requests import session
 from sqlalchemy.orm import Session
 
-from models.balance import Balance
+from ..models.balance import Balance
 
 def get_balance(db:Session, user_id: int):
     return db.query(Balance).filter(Balance.owner_id == user_id).first()

@@ -4,29 +4,30 @@ from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
-from endpoints import balance_endpoints, transaction_endpoints, user_endpoints
-from models import balance, transaction, user
-from schemas import balance_schema, transaction_schema, user_schema
+from .endpoints import balance_endpoints, transaction_endpoints, user_endpoints
+from .models import balance, transaction, user
+from .schemas import balance_schema, transaction_schema, user_schema
 
-from database import SessionLocal, engine, Base
+from .database import SessionLocal, engine, Base
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# origins = [
-#     "http://localhost",
-#     "http://localhost:3000",
-#     "http://localhost:8000",
-# ]
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "http://localhost:8000",
+]
 
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Initialise DB middleware
 @app.middleware("http")
@@ -42,7 +43,6 @@ async def db_session_middleware(request: Request, call_next):
 def get_db(request: Request):
     return request.state.db
 
-
 # Debug
 @app.get("/")
 def read_root():
@@ -56,7 +56,7 @@ def create_user(user: user_schema.UserCreate, db:Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Already Registered!")
     return user_endpoints.create_user(db=db, user=user)
 
-@app.get("/users/", response_model=user_schema.User)
+@app.get("/users/", response_model=List[user_schema.User])
 def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     db_user = user_endpoints.get_users(db, skip, limit)
     if db_user is None:

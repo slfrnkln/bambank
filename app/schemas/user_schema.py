@@ -1,7 +1,7 @@
 from typing import List, Union
 from pydantic import BaseModel
 
-from schemas.balance_schema import Balance
+from .balance_schema import Balance
 
 class UserBase(BaseModel):
     email: str

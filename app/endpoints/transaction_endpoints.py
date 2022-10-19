@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
-from models.transaction import Transaction
-from schemas.transaction_schema import TransactionCreate
+from ..models.transaction import Transaction
+from ..schemas.transaction_schema import TransactionCreate
 
 from . import balance_endpoints as Balance
 

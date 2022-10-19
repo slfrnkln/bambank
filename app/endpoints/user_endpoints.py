@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 
-from models.user import User
-from schemas.user_schema import UserCreate, UserLogin
+from ..models.user import User
+from ..schemas.user_schema import UserCreate, UserLogin
 
-import models.balance as balance
+from ..models.balance import Balance
 
 def get_user(db:Session, user_id: int):
     return db.query(User).filter(User.id == user_id).first()
@@ -20,7 +20,7 @@ def create_user(db: Session, user: UserCreate):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    db_balance = balance.Balance(balance=100, owner_id=db_user.id)
+    db_balance = Balance(balance=100, owner_id=db_user.id)
     db.add(db_balance)
     db.commit()
     db.refresh(db_balance)
